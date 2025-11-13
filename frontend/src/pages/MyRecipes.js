@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../services/api';
 import RecipeList from '../components/RecipeList';
+import RecipeView from '../components/RecipeView'; // <-- NEW IMPORT
 
 const MyRecipes = () => {
   const { user } = useAuth();
   const [recipes, setRecipes] = useState([]);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -44,6 +46,20 @@ const MyRecipes = () => {
     alert('Edit functionality coming soon!');
   };
 
+  // --- CHANGED LOGIC START ---
+
+  if (selectedRecipe) {
+    // If a recipe is selected, show the dedicated RecipeView component
+    return (
+      <RecipeView 
+        recipe={selectedRecipe} 
+        onBack={() => setSelectedRecipe(null)} // Function to reset state
+      />
+    );
+  }
+
+  // --- CHANGED LOGIC END ---
+
   if (!user) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
@@ -72,6 +88,7 @@ const MyRecipes = () => {
       ) : (
         <RecipeList
           recipes={recipes}
+          onSelect={setSelectedRecipe} // This function is now triggered by the "View" button
           onEdit={handleEditRecipe}
           onDelete={handleDeleteRecipe}
           showActions={true}

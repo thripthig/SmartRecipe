@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold">
-            🧠 SmartRecipeAI
+            🧠 CookSmart
           </Link>
 
           {/* Navigation Links */}
